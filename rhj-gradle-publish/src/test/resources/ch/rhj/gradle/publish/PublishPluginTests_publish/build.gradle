@@ -1,0 +1,14 @@
+
+buildscript {
+
+	dependencies {
+	
+		classpath files('../../../../resources/main')
+		classpath files('../../../../classes/java/main')
+	}
+}
+
+plugins {
+
+	id 'ch.rhj.gradle.rhj-gradle-publish'
+}

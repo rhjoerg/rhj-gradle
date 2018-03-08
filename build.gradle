@@ -2,8 +2,10 @@
 subprojects {
 
 	apply plugin: 'java-library'
+	apply plugin: 'java-gradle-plugin'
+
 	
-	version '0.2.1'
+	version '0.1.0'
 	group 'ch.rhj.java'
 	
 	sourceCompatibility = 1.8
@@ -17,7 +19,12 @@ subprojects {
 
 	dependencies {
 	
+		compile gradleApi()
+		testImplementation gradleTestKit()
+	
+		testImplementation group: 'ch.rhj.junit', name: 'rhj-junit-gradle', version: '0.3.0-SNAPSHOT'
 		testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.1.0'
+		
 		testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.1.0'
 		testRuntimeOnly group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.1.0'
 	}
