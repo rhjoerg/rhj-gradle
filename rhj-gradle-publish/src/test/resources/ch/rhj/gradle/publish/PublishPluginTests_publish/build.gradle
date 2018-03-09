@@ -1,14 +1,18 @@
 
-buildscript {
-
-	dependencies {
-	
-		classpath files('../../../../resources/main')
-		classpath files('../../../../classes/java/main')
-	}
-}
-
 plugins {
 
-	id 'ch.rhj.gradle.rhj-gradle-publish'
+	id 'ch.rhj.rhj-gradle-publish'
+}
+
+title = 'PublishPluginTests Project'
+description = 'A project used for testing the plug-in'
+
+developers {
+
+	rhjoerg { fullName = 'Roger H. Jörg'; email = 'rhj@rhj.ch'; roles = ['admin', 'developer'] }
+}
+
+developers {
+
+	hwjoerg { fullName = 'Hans W. Jörg'; email = 'hwj@rhj.ch'; roles = ['advisor'] }
 }

@@ -18,7 +18,8 @@ public class PublishPluginTests {
 		
 		BuildResult result = runner
 				.withPluginClasspath()
-				.withArguments("tasks")
+				.withArguments("tasks", "reportDevelopers")
+				.withDebug(true)
 				.forwardOutput()
 				.build();
 		
