@@ -5,6 +5,7 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.plugins.ExtensionContainer;
 import org.gradle.api.plugins.ExtraPropertiesExtension;
+import org.gradle.api.tasks.TaskContainer;
 
 public class PublishPlugin implements Plugin<Project> {
 	
@@ -22,12 +23,19 @@ public class PublishPlugin implements Plugin<Project> {
 		
 		developers = project.container(DeveloperExtension.class);
 		extensions.add("developers", developers);
+		
+		TaskContainer tasks = project.getTasks();
 
-		project.getTasks().create("reportDevelopers", ReportDevelopers.class, this::configureReportDevelopers);
+		tasks.create("reportDevelopers", ReportDevelopersTask.class, this::configureReportDevelopers);
+		tasks.create("createPom", CreatePomTask.class, this::configureCreatePom);
 	}
 	
-	private void configureReportDevelopers(ReportDevelopers reportDevelopers) {
+	private void configureReportDevelopers(ReportDevelopersTask reportDevelopers) {
 		
 		reportDevelopers.developers = developers;
+	}
+	
+	private void configureCreatePom(CreatePomTask createPom) {
+		
 	}
 }

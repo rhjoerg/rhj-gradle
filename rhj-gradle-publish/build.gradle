@@ -1,4 +1,10 @@
 
+dependencies {
+
+	compile group: 'org.apache.maven', name: 'maven-model', version: '3.5.2'
+	compile group: 'org.apache.maven', name: 'maven-model-builder', version: '3.5.2'
+}
+
 gradlePlugin {
 
 	plugins {

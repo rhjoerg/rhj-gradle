@@ -7,13 +7,13 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.tasks.TaskAction;
 
-public class ReportDevelopers extends DefaultTask {
+public class ReportDevelopersTask extends DefaultTask {
 	
 	private static final String FORMAT = "- %1$s (%2$s) <%3$s> %4$s";
 	
 	public NamedDomainObjectContainer<DeveloperExtension> developers;
 	
-	public ReportDevelopers() {
+	public ReportDevelopersTask() {
 		
 		this.setGroup("publishing");
 	}
