@@ -12,7 +12,7 @@ gradlePlugin {
 		publishPlugin {
 		
 			id = 'ch.rhj.rhj-gradle-publish'
-			implementationClass = 'ch.rhj.gradle.publish.PublishPlugin'
+			implementationClass = 'ch.rhj.gradle.publish.PublishingPlugin'
 		}
 	}
 }

@@ -11,14 +11,14 @@ import ch.rhj.junit.gradle.Gradle;
 import ch.rhj.junit.gradle.WithGradle;
 
 @WithGradle
-public class PublishPluginTests {
+public class PublishingPluginTests {
 
 	@Test
 	public void publish(@Gradle GradleRunner runner) {
 		
 		BuildResult result = runner
 				.withPluginClasspath()
-				.withArguments("tasks", "reportDevelopers", "createPom")
+				.withArguments("tasks", "createMavenPom")
 				.withDebug(true)
 				.forwardOutput()
 				.build();
