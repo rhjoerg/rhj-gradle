@@ -18,7 +18,7 @@ publishing {
 		rhjgradle {
 		
 			title 'MIT License'
-			url 'https://github.com/rhjoerg/rhj-gradle/LICENSE.md'
+			url 'https://github.com/rhjoerg/rhj-gradle/blob/master/LICENSE.md'
 		}
 	}
 }
