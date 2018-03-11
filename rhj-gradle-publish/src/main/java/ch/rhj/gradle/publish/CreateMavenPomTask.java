@@ -3,6 +3,7 @@ package ch.rhj.gradle.publish;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.maven.model.License;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.DefaultModelWriter;
 import org.apache.maven.model.io.ModelWriter;
@@ -24,6 +25,7 @@ public class CreateMavenPomTask extends DefaultTask {
 		Model model = new Model();
 		
 		setProjectProperties(model);
+		setLicences(model);
 		
 		write(model);
 	}
@@ -40,6 +42,20 @@ public class CreateMavenPomTask extends DefaultTask {
 		model.setDescription(publishing.getDescription());
 		model.setUrl(publishing.getSite());
 		model.setInceptionYear(publishing.getYear());
+	}
+	
+	private void setLicences(Model model) {
+		
+		publishing.getLicenses().all(lic -> {
+			
+			License license = new License();
+			
+			license.setName(lic.title);
+			license.setUrl(lic.url);
+			license.setDistribution(lic.distribution);
+			
+			model.addLicense(license);
+		});
 	}
 	
 	private void write(Model model) throws IOException {

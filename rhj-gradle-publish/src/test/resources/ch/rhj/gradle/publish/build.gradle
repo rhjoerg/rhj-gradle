@@ -15,6 +15,10 @@ publishing {
 	
 	licenses {
 	
-		withEclipse()
+		rhjgradle {
+		
+			title 'MIT License'
+			url 'https://github.com/rhjoerg/rhj-gradle/LICENSE.md'
+		}
 	}
 }

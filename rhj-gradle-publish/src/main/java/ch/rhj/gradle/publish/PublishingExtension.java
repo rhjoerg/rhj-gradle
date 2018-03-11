@@ -3,8 +3,8 @@ package ch.rhj.gradle.publish;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.Project;
-import org.gradle.util.ConfigureUtil;
 
 import com.google.common.base.Strings;
 
@@ -25,12 +25,12 @@ public class PublishingExtension {
 	private String site;
 	private String year;
 	
-	private final LicenseContainer licenses;
+	private final NamedDomainObjectContainer<LicenseExtension> licenses;
 	
 	public PublishingExtension(Project project) {
 		
 		this.project = project;
-		this.licenses = new LicenseContainer(project);
+		this.licenses = project.container(LicenseExtension.class);
 	}
 	
 	public String getName() {
@@ -122,8 +122,13 @@ public class PublishingExtension {
 		this.year = year;
 	}
 	
+	public NamedDomainObjectContainer<LicenseExtension> getLicenses() {
+		
+		return licenses;
+	}
+
 	public void licenses(@SuppressWarnings("rawtypes") final Closure configureClosure) {
 		
-		ConfigureUtil.configure(configureClosure, licenses);
+		licenses.configure(configureClosure);
 	}
 }
