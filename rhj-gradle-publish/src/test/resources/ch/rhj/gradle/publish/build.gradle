@@ -12,4 +12,9 @@ publishing {
 	title 'Publishing Plugin Test'
 	description 'Helper project to test PublishingPlugin'
 	site 'https://github.com/rhjoerg/rhj-gradle'
+	
+	licenses {
+	
+		withEclipse()
+	}
 }

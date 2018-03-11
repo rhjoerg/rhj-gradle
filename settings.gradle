@@ -1,4 +1,5 @@
 
 rootProject.name = 'rhj-gradle'
 
+include 'rhj-gradle-common'
 include 'rhj-gradle-publish'

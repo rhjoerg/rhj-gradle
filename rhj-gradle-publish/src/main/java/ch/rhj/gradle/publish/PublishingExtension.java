@@ -4,8 +4,11 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.gradle.api.Project;
+import org.gradle.util.ConfigureUtil;
 
 import com.google.common.base.Strings;
+
+import groovy.lang.Closure;
 
 public class PublishingExtension {
 	
@@ -22,9 +25,12 @@ public class PublishingExtension {
 	private String site;
 	private String year;
 	
+	private final LicenseContainer licenses;
+	
 	public PublishingExtension(Project project) {
 		
 		this.project = project;
+		this.licenses = new LicenseContainer(project);
 	}
 	
 	public String getName() {
@@ -114,5 +120,10 @@ public class PublishingExtension {
 	public void setYear(String year) {
 		
 		this.year = year;
+	}
+	
+	public void licenses(@SuppressWarnings("rawtypes") final Closure configureClosure) {
+		
+		ConfigureUtil.configure(configureClosure, licenses);
 	}
 }
