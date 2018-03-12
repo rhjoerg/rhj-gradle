@@ -1,48 +1,101 @@
 package ch.rhj.gradle.publish;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.when;
 
+import org.gradle.api.NamedDomainObjectContainer;
+import org.gradle.api.NamedDomainObjectFactory;
 import org.gradle.api.Project;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
+
+import com.google.common.collect.ImmutableSortedSet;
 
 import ch.rhj.junit.mockito.WithMockito;
 
 @WithMockito
 public class PublishingExtensionTests {
-
+	
 	@Test
-	public void title(@Mock Project project) {
+	public void group(@Mock Project project, @Mock ProjectInfo parent) {
 		
-		PublishingExtension extension = new PublishingExtension(project);
+		PublishingExtension extension = new PublishingExtension(project, parent);
 		
-		extension.title("test");
-		assertEquals("test", extension.getTitle());
-		extension.title(null);
+		extension.group("group1");
+		assertEquals("group1", extension.getGroup());
+		extension.group(null);
 		
-		Mockito.when(project.hasProperty("title")).thenReturn(false);
-		assertEquals("", extension.getTitle());
-		
-		Mockito.when(project.hasProperty("title")).thenReturn(true);
-		Mockito.when(project.property("title")).thenReturn("test");
-		assertEquals("test", extension.getTitle());
+		when(parent.getGroup()).thenReturn("group2");
+		assertEquals("group2", extension.getGroup());
 	}
 	
 	@Test
-	public void description(@Mock Project project) {
+	public void name(@Mock Project project, @Mock ProjectInfo parent) {
 		
-		PublishingExtension extension = new PublishingExtension(project);
+		PublishingExtension extension = new PublishingExtension(project, parent);
 		
-		extension.description("test");
-		assertEquals("test", extension.getDescription());
+		extension.name("name1");
+		assertEquals("name1", extension.getName());
+		extension.name(null);
+		
+		when(parent.getName()).thenReturn("name2");
+		assertEquals("name2", extension.getName());
+	}
+
+	@Test
+	public void version(@Mock Project project, @Mock ProjectInfo parent) {
+		
+		PublishingExtension extension = new PublishingExtension(project, parent);
+		
+		extension.version("version1");
+		assertEquals("version1", extension.getVersion());
+		extension.version(null);
+		
+		when(parent.getVersion()).thenReturn("version2");
+		assertEquals("version2", extension.getVersion());
+	}
+
+	@Test
+	public void title(@Mock Project project, @Mock ProjectInfo parent) {
+		
+		PublishingExtension extension = new PublishingExtension(project, parent);
+		
+		extension.title("title1");
+		assertEquals("title1", extension.getTitle());
+		extension.title(null);
+		
+		when(parent.getTitle()).thenReturn("title2");
+		assertEquals("title2", extension.getTitle());
+	}
+	
+	@Test
+	public void description(@Mock Project project, @Mock ProjectInfo parent) {
+		
+		PublishingExtension extension = new PublishingExtension(project, parent);
+		
+		extension.description("description1");
+		assertEquals("description1", extension.getDescription());
 		extension.description(null);
 		
-		Mockito.when(project.hasProperty("description")).thenReturn(false);
-		assertEquals("", extension.getDescription());
+		when(parent.getDescription()).thenReturn("description2");
+		assertEquals("description2", extension.getDescription());
+	}
+	
+	@SuppressWarnings({ "unchecked" })
+	@Test
+	public void publications(@Mock Project project, @Mock ProjectInfo parent,
+			@Mock NamedDomainObjectContainer<PublicationExtension> publications) {
 		
-		Mockito.when(project.hasProperty("description")).thenReturn(true);
-		Mockito.when(project.property("description")).thenReturn("test");
-		assertEquals("test", extension.getDescription());
+		when(project.container(eq(PublicationExtension.class), isA(NamedDomainObjectFactory.class))).thenReturn(publications);
+		
+		PublishingExtension extension = new PublishingExtension(project, parent);
+		
+		extension.publications(pubs -> { pubs.create("test"); });
+		
+		when(publications.getNames()).thenReturn(ImmutableSortedSet.of("test"));
+		assertTrue(extension.getPublications().getNames().contains("test"));
 	}
 }

@@ -4,20 +4,33 @@ plugins {
 	id 'ch.rhj.rhj-gradle-publish'
 }
 
-title       = 'Project Level Title'
-description = 'Project Level Description'
-
-publishing {
-
-	title       = 'Publishing Level Title'
-	description = 'Publishing Level Description'
-}
+group       	= 'Project Group'
+title       	= 'Project Title'
+description 	= 'Project Description'
 
 publications {
 
-	"PublishingPluginTests" {
+	"project-publication" {
 
-		title       = 'Publication Level Title'
-		description = 'Publication Level Description'
+		group			'Publication Group'
+		title			'Publication Title'
+		description		'Publication Description'
+	}
+}
+
+publishing {
+
+	group		'Publishing Group'
+	title		'Publishing Title'
+	description	'Publishing Description'
+	
+	publications {
+	
+		"publishing-publication" {
+		
+			group		'Publishing Publication Group'
+			title		'Publishing Publication Title'
+			description	'Publishing Publication Description'
+		}
 	}
 }

@@ -2,6 +2,7 @@ package ch.rhj.gradle.publish;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.Project;
@@ -22,18 +23,32 @@ public class PublishingPluginTests {
 		project.getPlugins().apply(PublishingPlugin.class);
 				
 		assertEquals("", project.property("title"));
-		assertEquals("", project.property("description"));
+		assertNull(project.property("description"));
 		
-		assertNotNull(project.getExtensions().getByName("publishing"));
-		assertNotNull(project.getExtensions().getByName("publications"));
+		PublishingExtension publishing = getExtension(project, "publishing", PublishingExtension.class);
+		NamedDomainObjectContainer<PublicationExtension> globalPublications = getContainer(project, "publications", PublicationExtension.class);
+		NamedDomainObjectContainer<PublicationExtension> localPublications = publishing.getPublications();
 		
-		@SuppressWarnings("unchecked")
-		NamedDomainObjectContainer<PublicationExtension> publications
-			= (NamedDomainObjectContainer<PublicationExtension>) project.getExtensions().getByName("publications");
+		assertNotNull(publishing);
+		assertNotNull(globalPublications);
+		assertNotNull(localPublications);
 		
-		PublicationExtension test = publications.create("test");
+		PublicationExtension globalPublication = globalPublications.create("globalPublication");
+		PublicationExtension localPublication = localPublications.create("localPublication");
 		
-		assertEquals("test", test.name);
+		assertEquals("globalPublication", globalPublication.getName());
+		assertEquals("localPublication", localPublication.getName());
+	}
+	
+	private <T> T getExtension(Project project, String name, Class<T> type) {
+		
+		return type.cast(project.getExtensions().getByName(name));
+	}
+	
+	@SuppressWarnings("unchecked")
+	private <T> NamedDomainObjectContainer<T> getContainer(Project project, String name, Class<T> type) {
+		
+		return (NamedDomainObjectContainer<T>) project.getExtensions().getByName(name);
 	}
 	
 	@Test

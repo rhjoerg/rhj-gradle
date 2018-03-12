@@ -2,27 +2,63 @@ package ch.rhj.gradle.publish;
 
 import org.gradle.internal.impldep.com.google.api.client.util.Strings;
 
-public class PublicationExtension {
+public class PublicationExtension implements ProjectInfo {
 	
-	public final String name;
+	private final String name;
+	private final ProjectInfo parent;
 	
-	private final PublishingExtension publishing;
-	
+	private String group;
+	private String version;
 	private String title;
 	private String description;
 	
-	public PublicationExtension(String name, PublishingExtension publishing) {
+	public PublicationExtension(String name, ProjectInfo parent) {
 		
 		this.name = name;
-		this.publishing = publishing;
+		this.parent = parent;
 	}
 	
+	@Override
+	public String getGroup() {
+		
+		return Strings.isNullOrEmpty(group) ? parent.getGroup() : group;
+	}
+
+	public void setGroup(String group) {
+		
+		this.group = group;
+	}
+	
+	public void group(String group) {
+		
+		setGroup(group);
+	}
+
+	@Override
+	public String getName() {
+
+		return name;
+	}
+
+	@Override
+	public String getVersion() {
+		
+		return Strings.isNullOrEmpty(version) ? parent.getVersion() : version;
+	}
+
+	public void setVersion(String version) {
+		
+		this.version = version;
+	}
+	
+	public void version(String version) {
+		
+		setVersion(version);
+	}
+
 	public String getTitle() {
 		
-		if (!Strings.isNullOrEmpty(title))
-			return title;
-		
-		return publishing.getTitle();
+		return Strings.isNullOrEmpty(title) ? parent.getTitle() : title;
 	}
 
 	public void setTitle(String title) {
@@ -37,10 +73,7 @@ public class PublicationExtension {
 
 	public String getDescription() {
 		
-		if (!Strings.isNullOrEmpty(description))
-			return description;
-		
-		return publishing.getDescription();
+		return Strings.isNullOrEmpty(description) ? parent.getDescription() : description;
 	}
 
 	public void setDescription(String description) {
