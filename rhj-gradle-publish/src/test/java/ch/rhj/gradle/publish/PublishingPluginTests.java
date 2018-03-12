@@ -1,6 +1,7 @@
 package ch.rhj.gradle.publish;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.gradle.api.Project;
 import org.junit.jupiter.api.Test;
@@ -19,9 +20,6 @@ public class PublishingPluginTests {
 		assertEquals("", project.property("title"));
 		assertEquals("", project.property("description"));
 		
-		PublishingExtension publishing = (PublishingExtension) project.getExtensions().getByName("publishing");
-		
-		assertEquals("", publishing.getTitle());
-		assertEquals("", publishing.getDescription());
+		assertNotNull(project.getExtensions().getByName("publishing"));
 	}
 }
