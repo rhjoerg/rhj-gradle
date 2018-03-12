@@ -4,21 +4,20 @@ plugins {
 	id 'ch.rhj.rhj-gradle-publish'
 }
 
-group 'ch.rhj.gradle'
-version '0.0.0-SNAPSHOT'
+title       = 'Project Level Title'
+description = 'Project Level Description'
 
 publishing {
 
-	title 'Publishing Plugin Test'
-	description 'Helper project to test PublishingPlugin'
-	site 'https://github.com/rhjoerg/rhj-gradle'
-	
-	licenses {
-	
-		rhjgradle {
-		
-			title 'MIT License'
-			url 'https://github.com/rhjoerg/rhj-gradle/blob/master/LICENSE.md'
-		}
+	title       = 'Publishing Level Title'
+	description = 'Publishing Level Description'
+}
+
+publications {
+
+	"PublishingPluginTests" {
+
+		title       = 'Publication Level Title'
+		description = 'Publication Level Description'
 	}
 }

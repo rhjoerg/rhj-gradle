@@ -1,5 +1,6 @@
 package ch.rhj.gradle.publish;
 
+import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.plugins.ExtensionContainer;
@@ -15,7 +16,12 @@ public class PublishingPlugin implements Plugin<Project> {
 		
 		ExtensionContainer extensions = project.getExtensions();
 		
-		extensions.create("publishing", PublishingExtension.class, project);
+		PublishingExtension publishing = extensions.create("publishing", PublishingExtension.class, project);
+		
+		NamedDomainObjectContainer<PublicationExtension> publications = project
+				.container(PublicationExtension.class, name -> new PublicationExtension(name, publishing));
+		
+		extensions.add("publications", publications);
 	}
 	
 	private void setProperty(Project project, String name, String value) {
