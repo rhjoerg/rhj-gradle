@@ -2,9 +2,7 @@ package ch.rhj.gradle.publish;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.gradle.testkit.runner.BuildResult;
-import org.gradle.testkit.runner.GradleRunner;
-import org.gradle.testkit.runner.TaskOutcome;
+import org.gradle.api.Project;
 import org.junit.jupiter.api.Test;
 
 import ch.rhj.junit.gradle.Gradle;
@@ -14,15 +12,16 @@ import ch.rhj.junit.gradle.WithGradle;
 public class PublishingPluginTests {
 
 	@Test
-	public void publish(@Gradle GradleRunner runner) {
+	public void apply(@Gradle Project project) {
 		
-		BuildResult result = runner
-				.withPluginClasspath()
-				.withArguments("tasks", "createMavenPom")
-				.withDebug(true)
-				.forwardOutput()
-				.build();
+		project.getPlugins().apply(PublishingPlugin.class);
+				
+		assertEquals("", project.property("title"));
+		assertEquals("", project.property("description"));
 		
-		assertEquals(TaskOutcome.SUCCESS, result.task(":tasks").getOutcome());
+		PublishingExtension publishing = (PublishingExtension) project.getExtensions().getByName("publishing");
+		
+		assertEquals("", publishing.getTitle());
+		assertEquals("", publishing.getDescription());
 	}
 }
