@@ -1,5 +1,7 @@
 package ch.rhj.gradle.publish;
 
+import static ch.rhj.gradle.common.ProjectExtensions.getContainer;
+import static ch.rhj.gradle.common.ProjectExtensions.getExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -38,17 +40,6 @@ public class PublishingPluginTests {
 		
 		assertEquals("globalPublication", globalPublication.getName());
 		assertEquals("localPublication", localPublication.getName());
-	}
-	
-	private <T> T getExtension(Project project, String name, Class<T> type) {
-		
-		return type.cast(project.getExtensions().getByName(name));
-	}
-	
-	@SuppressWarnings("unchecked")
-	private <T> NamedDomainObjectContainer<T> getContainer(Project project, String name, Class<T> type) {
-		
-		return (NamedDomainObjectContainer<T>) project.getExtensions().getByName(name);
 	}
 	
 	@Test
