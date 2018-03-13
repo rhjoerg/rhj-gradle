@@ -14,12 +14,6 @@ public class DefaultInfo implements ProjectInfo {
 	}
 
 	@Override
-	public ProjectInfo getParentProjectInfo() {
-
-		throw new IllegalStateException();
-	}
-
-	@Override
 	public String getGroup() {
 
 		return project.getGroup().toString();

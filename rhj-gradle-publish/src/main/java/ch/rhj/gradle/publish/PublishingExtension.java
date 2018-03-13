@@ -1,5 +1,11 @@
 package ch.rhj.gradle.publish;
 
+import static com.google.common.base.Strings.emptyToNull;
+import static java.util.Optional.empty;
+import static java.util.Optional.ofNullable;
+
+import java.util.Optional;
+
 import org.gradle.api.Action;
 import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.Project;
@@ -8,11 +14,11 @@ public class PublishingExtension implements ProjectInfo {
 	
 	private final ProjectInfo parentProjectInfo;
 
-	private String group;
-	private String name;
-	private String version;
-	private String title;
-	private String description;
+	private Optional<String> group = empty();
+	private Optional<String> name = empty();
+	private Optional<String> version = empty();
+	private Optional<String> title = empty();
+	private Optional<String> description = empty();
 	
 	private final NamedDomainObjectContainer<PublicationExtension> publications;
 	
@@ -29,20 +35,14 @@ public class PublishingExtension implements ProjectInfo {
 	}
 	
 	@Override
-	public ProjectInfo getParentProjectInfo() {
-
-		return parentProjectInfo;
-	}
-
-	@Override
 	public String getGroup() {
 		
-		return getGroup(group);
+		return group.orElseGet(parentProjectInfo::getGroup);
 	}
 
 	public void setGroup(String group) {
 		
-		this.group = group;
+		this.group = ofNullable(emptyToNull(group));
 	}
 	
 	public void group(String group) {
@@ -53,12 +53,12 @@ public class PublishingExtension implements ProjectInfo {
 	@Override
 	public String getName() {
 		
-		return getName(name);
+		return name.orElseGet(parentProjectInfo::getName);
 	}
 
 	public void setName(String name) {
 		
-		this.name = name;
+		this.name = ofNullable(emptyToNull(name));
 	}
 	
 	public void name(String name) {
@@ -69,12 +69,12 @@ public class PublishingExtension implements ProjectInfo {
 	@Override
 	public String getVersion() {
 		
-		return getVersion(version);
+		return version.orElseGet(parentProjectInfo::getVersion);
 	}
 
 	public void setVersion(String version) {
 		
-		this.version = version;
+		this.version = ofNullable(emptyToNull(version));
 	}
 	
 	public void version(String version) {
@@ -85,12 +85,12 @@ public class PublishingExtension implements ProjectInfo {
 	@Override
 	public String getTitle() {
 		
-		return getTitle(title);
+		return title.orElseGet(parentProjectInfo::getTitle);
 	}
 	
 	public void setTitle(String title) {
 		
-		this.title = title;
+		this.title = ofNullable(emptyToNull(title));
 	}
 
 	public void title(String title) {
@@ -101,12 +101,12 @@ public class PublishingExtension implements ProjectInfo {
 	@Override
 	public String getDescription() {
 		
-		return getDescription(description);
+		return description.orElseGet(parentProjectInfo::getDescription);
 	}
 
 	public void setDescription(String description) {
 		
-		this.description = description;
+		this.description = ofNullable(emptyToNull(description));
 	}
 
 	public void description(String description) {
