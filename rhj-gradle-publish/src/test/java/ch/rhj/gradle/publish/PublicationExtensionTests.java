@@ -6,9 +6,6 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import ch.rhj.junit.mockito.WithMockito;
-
-@WithMockito
 public class PublicationExtensionTests {
 	
 	@Test

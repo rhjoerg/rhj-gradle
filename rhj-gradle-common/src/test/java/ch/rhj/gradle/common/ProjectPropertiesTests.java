@@ -14,9 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 
-import ch.rhj.junit.mockito.WithMockito;
-
-@WithMockito
 public class ProjectPropertiesTests {
 
 	@Test

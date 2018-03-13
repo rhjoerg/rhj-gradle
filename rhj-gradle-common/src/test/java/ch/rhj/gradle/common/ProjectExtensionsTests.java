@@ -9,9 +9,6 @@ import org.gradle.api.plugins.ExtensionContainer;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import ch.rhj.junit.mockito.WithMockito;
-
-@WithMockito
 public class ProjectExtensionsTests {
 	
 	public static class Foo {

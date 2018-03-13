@@ -14,9 +14,6 @@ import org.mockito.Mock;
 
 import com.google.common.collect.ImmutableSortedSet;
 
-import ch.rhj.junit.mockito.WithMockito;
-
-@WithMockito
 public class PublishingExtensionTests {
 	
 	@Test
