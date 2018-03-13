@@ -22,8 +22,13 @@ public class ProjectProperties {
 	
 	public static void setIfAbsent(Project project, String name, Object value) {
 		
-		if (project.hasProperty(name))
+		if (project.hasProperty(name)) {
+			
+			if (project.property(name) == null)
+				project.setProperty(name, value);
+			
 			return;
+		}
 		
 		project.getExtensions().getExtraProperties().set(name, value);
 	}

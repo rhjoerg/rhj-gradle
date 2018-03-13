@@ -4,13 +4,19 @@ import org.gradle.api.Project;
 
 import ch.rhj.gradle.common.ProjectProperties;
 
-public class ProjectProjectInfo implements ProjectInfo {
+public class DefaultInfo implements ProjectInfo {
 
 	private final Project project;
 
-	public ProjectProjectInfo(Project project) {
+	public DefaultInfo(Project project) {
 		
 		this.project = project;
+	}
+
+	@Override
+	public ProjectInfo getParentProjectInfo() {
+
+		throw new IllegalStateException();
 	}
 
 	@Override

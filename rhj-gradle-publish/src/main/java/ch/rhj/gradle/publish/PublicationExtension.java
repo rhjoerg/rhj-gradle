@@ -1,27 +1,31 @@
 package ch.rhj.gradle.publish;
 
-import org.gradle.internal.impldep.com.google.api.client.util.Strings;
-
 public class PublicationExtension implements ProjectInfo {
 	
 	private final String name;
-	private final ProjectInfo parent;
+	private final ProjectInfo parentProjectInfo;
 	
 	private String group;
 	private String version;
 	private String title;
 	private String description;
 	
-	public PublicationExtension(String name, ProjectInfo parent) {
+	public PublicationExtension(String name, ProjectInfo parentProjectInfo) {
 		
 		this.name = name;
-		this.parent = parent;
+		this.parentProjectInfo = parentProjectInfo;
 	}
 	
 	@Override
+	public ProjectInfo getParentProjectInfo() {
+
+		return parentProjectInfo;
+	}
+
+	@Override
 	public String getGroup() {
 		
-		return Strings.isNullOrEmpty(group) ? parent.getGroup() : group;
+		return getGroup(group);
 	}
 
 	public void setGroup(String group) {
@@ -43,7 +47,7 @@ public class PublicationExtension implements ProjectInfo {
 	@Override
 	public String getVersion() {
 		
-		return Strings.isNullOrEmpty(version) ? parent.getVersion() : version;
+		return getVersion(version);
 	}
 
 	public void setVersion(String version) {
@@ -58,7 +62,7 @@ public class PublicationExtension implements ProjectInfo {
 
 	public String getTitle() {
 		
-		return Strings.isNullOrEmpty(title) ? parent.getTitle() : title;
+		return getTitle(title);
 	}
 
 	public void setTitle(String title) {
@@ -73,7 +77,7 @@ public class PublicationExtension implements ProjectInfo {
 
 	public String getDescription() {
 		
-		return Strings.isNullOrEmpty(description) ? parent.getDescription() : description;
+		return getDescription(description);
 	}
 
 	public void setDescription(String description) {

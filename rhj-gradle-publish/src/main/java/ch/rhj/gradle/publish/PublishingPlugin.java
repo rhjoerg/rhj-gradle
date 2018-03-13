@@ -16,11 +16,11 @@ public class PublishingPlugin implements Plugin<Project> {
 		
 		ExtensionContainer extensions = project.getExtensions();
 		
-		ProjectInfo projectInfo = new ProjectProjectInfo(project);
+		DefaultInfo defaultInfo = new DefaultInfo(project);
 
-		extensions.create("publishing", PublishingExtension.class, project, projectInfo);
+		extensions.create("publishing", PublishingExtension.class, project, defaultInfo);
 		
 		extensions.add("publications", project.container(PublicationExtension.class,
-				name -> new PublicationExtension(name, projectInfo)));
+				name -> new PublicationExtension(name, defaultInfo)));
 	}
 }

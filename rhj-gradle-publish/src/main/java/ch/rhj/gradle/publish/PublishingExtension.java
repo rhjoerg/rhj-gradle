@@ -4,11 +4,9 @@ import org.gradle.api.Action;
 import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.Project;
 
-import com.google.common.base.Strings;
-
 public class PublishingExtension implements ProjectInfo {
 	
-	private final ProjectInfo parent;
+	private final ProjectInfo parentProjectInfo;
 
 	private String group;
 	private String name;
@@ -18,9 +16,9 @@ public class PublishingExtension implements ProjectInfo {
 	
 	private final NamedDomainObjectContainer<PublicationExtension> publications;
 	
-	public PublishingExtension(Project project, ProjectInfo parent) {
+	public PublishingExtension(Project project, ProjectInfo parentProjectInfo) {
 		
-		this.parent = parent;
+		this.parentProjectInfo = parentProjectInfo;
 		
 		publications = project.container(PublicationExtension.class, this::createPublication);
 	}
@@ -31,9 +29,15 @@ public class PublishingExtension implements ProjectInfo {
 	}
 	
 	@Override
+	public ProjectInfo getParentProjectInfo() {
+
+		return parentProjectInfo;
+	}
+
+	@Override
 	public String getGroup() {
 		
-		return Strings.isNullOrEmpty(group) ? parent.getGroup() : group;
+		return getGroup(group);
 	}
 
 	public void setGroup(String group) {
@@ -49,7 +53,7 @@ public class PublishingExtension implements ProjectInfo {
 	@Override
 	public String getName() {
 		
-		return Strings.isNullOrEmpty(name) ? parent.getName() : name;
+		return getName(name);
 	}
 
 	public void setName(String name) {
@@ -65,7 +69,7 @@ public class PublishingExtension implements ProjectInfo {
 	@Override
 	public String getVersion() {
 		
-		return Strings.isNullOrEmpty(version) ? parent.getVersion() : version;
+		return getVersion(version);
 	}
 
 	public void setVersion(String version) {
@@ -81,7 +85,7 @@ public class PublishingExtension implements ProjectInfo {
 	@Override
 	public String getTitle() {
 		
-		return Strings.isNullOrEmpty(title) ? parent.getTitle() : title;
+		return getTitle(title);
 	}
 	
 	public void setTitle(String title) {
@@ -97,7 +101,7 @@ public class PublishingExtension implements ProjectInfo {
 	@Override
 	public String getDescription() {
 		
-		return Strings.isNullOrEmpty(description) ? parent.getDescription() : description;
+		return getDescription(description);
 	}
 
 	public void setDescription(String description) {

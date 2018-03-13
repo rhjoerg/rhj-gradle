@@ -15,7 +15,7 @@ public class ProjectProjectInfoTests {
 	@Test
 	public void test(@Mock Project project) {
 		
-		ProjectProjectInfo info = new ProjectProjectInfo(project);
+		DefaultInfo info = new DefaultInfo(project);
 		
 		when(project.getGroup()).thenReturn("group");
 		assertEquals("group", info.getGroup());
