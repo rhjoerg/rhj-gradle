@@ -40,6 +40,6 @@ public class PublishingPluginTests {
 	@Test
 	public void build(@Gradle GradleRunner runner) throws Exception {
 		
-		runner.withArguments("model").forwardOutput().withDebug(true).withPluginClasspath().build();
+		runner.withArguments("tasks").forwardOutput().withDebug(true).withPluginClasspath().build();
 	}
 }

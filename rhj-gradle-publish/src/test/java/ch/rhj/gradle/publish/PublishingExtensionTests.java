@@ -2,22 +2,18 @@ package ch.rhj.gradle.publish;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.when;
 
-import org.gradle.api.NamedDomainObjectContainer;
-import org.gradle.api.NamedDomainObjectFactory;
 import org.gradle.api.Project;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import com.google.common.collect.ImmutableSortedSet;
+import ch.rhj.junit.gradle.Gradle;
 
 public class PublishingExtensionTests {
 	
 	@Test
-	public void group(@Mock Project project, @Mock ProjectInfo parent) {
+	public void group(@Gradle Project project, @Mock ProjectInfo parent) {
 		
 		PublishingExtension extension = new PublishingExtension(project, parent);
 		
@@ -30,7 +26,7 @@ public class PublishingExtensionTests {
 	}
 	
 	@Test
-	public void name(@Mock Project project, @Mock ProjectInfo parent) {
+	public void name(@Gradle Project project, @Mock ProjectInfo parent) {
 		
 		PublishingExtension extension = new PublishingExtension(project, parent);
 		
@@ -43,7 +39,7 @@ public class PublishingExtensionTests {
 	}
 
 	@Test
-	public void version(@Mock Project project, @Mock ProjectInfo parent) {
+	public void version(@Gradle Project project, @Mock ProjectInfo parent) {
 		
 		PublishingExtension extension = new PublishingExtension(project, parent);
 		
@@ -56,7 +52,7 @@ public class PublishingExtensionTests {
 	}
 
 	@Test
-	public void title(@Mock Project project, @Mock ProjectInfo parent) {
+	public void title(@Gradle Project project, @Mock ProjectInfo parent) {
 		
 		PublishingExtension extension = new PublishingExtension(project, parent);
 		
@@ -69,7 +65,7 @@ public class PublishingExtensionTests {
 	}
 	
 	@Test
-	public void description(@Mock Project project, @Mock ProjectInfo parent) {
+	public void description(@Gradle Project project, @Mock ProjectInfo parent) {
 		
 		PublishingExtension extension = new PublishingExtension(project, parent);
 		
@@ -81,18 +77,22 @@ public class PublishingExtensionTests {
 		assertEquals("description2", extension.getDescription());
 	}
 	
-	@SuppressWarnings({ "unchecked" })
 	@Test
-	public void publications(@Mock Project project, @Mock ProjectInfo parent,
-			@Mock NamedDomainObjectContainer<PublicationExtension> publications) {
-		
-		when(project.container(eq(PublicationExtension.class), isA(NamedDomainObjectFactory.class))).thenReturn(publications);
+	public void publications(@Gradle Project project, @Mock ProjectInfo parent) {
 		
 		PublishingExtension extension = new PublishingExtension(project, parent);
 		
 		extension.publications(pubs -> { pubs.create("test"); });
 		
-		when(publications.getNames()).thenReturn(ImmutableSortedSet.of("test"));
 		assertTrue(extension.getPublications().getNames().contains("test"));
+	}
+	
+	@Test
+	public void repositories(@Gradle Project project, @Mock ProjectInfo parent) {
+		
+		PublishingExtension extension = new PublishingExtension(project, parent);
+		
+		assertTrue(extension.getRepositories() == extension.getRepositories());
+		extension.repositories(reps -> {});
 	}
 }

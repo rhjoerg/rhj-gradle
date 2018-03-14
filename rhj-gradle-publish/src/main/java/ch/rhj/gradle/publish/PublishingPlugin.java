@@ -11,13 +11,21 @@ public class PublishingPlugin implements Plugin<Project> {
 	@Override
 	public void apply(Project project) {
 		
+		configureProperties(project);
+		configureExtensions(project);
+	}
+	
+	private void configureProperties(Project project) {
+		
 		ProjectProperties.setIfAbsent(project, "title", "");
 		ProjectProperties.setIfAbsent(project, "description", "");
+	}
+	
+	private void configureExtensions(Project project) {
 		
 		ExtensionContainer extensions = project.getExtensions();
-		
 		DefaultInfo defaultInfo = new DefaultInfo(project);
-
+		
 		extensions.create("publishing", PublishingExtension.class, project, defaultInfo);
 		
 		extensions.add("publications", project.container(PublicationExtension.class,

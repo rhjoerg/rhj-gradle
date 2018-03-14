@@ -21,12 +21,15 @@ public class PublishingExtension implements ProjectInfo {
 	private Optional<String> description = empty();
 	
 	private final NamedDomainObjectContainer<PublicationExtension> publications;
+	private final RepositoriesExtension repositories;
 	
 	public PublishingExtension(Project project, ProjectInfo parentProjectInfo) {
 		
 		this.parentProjectInfo = parentProjectInfo;
 		
+		
 		publications = project.container(PublicationExtension.class, this::createPublication);
+		repositories = project.getObjects().newInstance(RepositoriesExtension.class);
 	}
 	
 	private PublicationExtension createPublication(String name) {
@@ -122,5 +125,15 @@ public class PublishingExtension implements ProjectInfo {
 	public void publications(Action<? super NamedDomainObjectContainer<PublicationExtension>> configurer) {
 		
 		configurer.execute(publications);
+	}
+	
+	public RepositoriesExtension getRepositories() {
+		
+		return repositories;
+	}
+	
+	public void repositories(Action<? super RepositoriesExtension> configurer) {
+		
+		configurer.execute(repositories);
 	}
 }

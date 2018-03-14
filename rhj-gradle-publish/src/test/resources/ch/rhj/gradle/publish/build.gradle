@@ -33,4 +33,7 @@ publishing {
 			description	'Publishing Publication Description'
 		}
 	}
+	
+	repositories {
+	}
 }

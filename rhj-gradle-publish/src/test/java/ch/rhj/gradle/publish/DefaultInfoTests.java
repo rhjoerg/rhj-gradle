@@ -7,7 +7,7 @@ import org.gradle.api.Project;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-public class ProjectProjectInfoTests {
+public class DefaultInfoTests {
 
 	@Test
 	public void test(@Mock Project project) {
