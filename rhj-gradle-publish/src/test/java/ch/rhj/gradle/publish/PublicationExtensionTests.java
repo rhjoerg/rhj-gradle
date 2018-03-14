@@ -3,17 +3,24 @@ package ch.rhj.gradle.publish;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+import org.gradle.api.Project;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
+import ch.rhj.junit.gradle.Gradle;
+
 public class PublicationExtensionTests {
 	
+	@Mock
+	ProjectInfo projectInfo;
+	
 	@Test
-	public void group(@Mock ProjectInfo parent) {
+	public void group(@Gradle Project project) {
 		
-		PublicationExtension extension = new PublicationExtension("foo", parent);
+		PublishingContext context = new PublishingContext(project, projectInfo);
+		PublicationExtension extension = new PublicationExtension("foo", context);
 		
-		when(parent.getGroup()).thenReturn("group1");
+		when(projectInfo.getGroup()).thenReturn("group1");
 		assertEquals("group1", extension.getGroup());
 		
 		extension.group("group2");
@@ -21,11 +28,12 @@ public class PublicationExtensionTests {
 	}
 	
 	@Test
-	public void version(@Mock ProjectInfo parent) {
+	public void version(@Gradle Project project) {
 		
-		PublicationExtension extension = new PublicationExtension("foo", parent);
+		PublishingContext context = new PublishingContext(project, projectInfo);
+		PublicationExtension extension = new PublicationExtension("foo", context);
 		
-		when(parent.getVersion()).thenReturn("version1");
+		when(projectInfo.getVersion()).thenReturn("version1");
 		assertEquals("version1", extension.getVersion());
 		
 		extension.version("version2");
@@ -33,11 +41,12 @@ public class PublicationExtensionTests {
 	}
 	
 	@Test
-	public void title(@Mock ProjectInfo parent) {
+	public void title(@Gradle Project project) {
 		
-		PublicationExtension extension = new PublicationExtension("foo", parent);
+		PublishingContext context = new PublishingContext(project, projectInfo);
+		PublicationExtension extension = new PublicationExtension("foo", context);
 		
-		when(parent.getTitle()).thenReturn("test1");
+		when(projectInfo.getTitle()).thenReturn("test1");
 		assertEquals("test1", extension.getTitle());
 		
 		extension.title("test2");
@@ -45,11 +54,12 @@ public class PublicationExtensionTests {
 	}
 
 	@Test
-	public void description(@Mock ProjectInfo parent) {
+	public void description(@Gradle Project project) {
 		
-		PublicationExtension extension = new PublicationExtension("foo", parent);
+		PublishingContext context = new PublishingContext(project, projectInfo);
+		PublicationExtension extension = new PublicationExtension("foo", context);
 		
-		when(parent.getDescription()).thenReturn("test1");
+		when(projectInfo.getDescription()).thenReturn("test1");
 		assertEquals("test1", extension.getDescription());
 		
 		extension.description("test2");

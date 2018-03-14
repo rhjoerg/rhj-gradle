@@ -12,7 +12,7 @@ public class DefaultInfoTests {
 	@Test
 	public void test(@Mock Project project) {
 		
-		DefaultInfo info = new DefaultInfo(project);
+		DefaultProjectInfo info = new DefaultProjectInfo(project);
 		
 		when(project.getGroup()).thenReturn("group");
 		assertEquals("group", info.getGroup());

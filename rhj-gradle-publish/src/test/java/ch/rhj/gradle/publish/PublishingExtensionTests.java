@@ -1,7 +1,7 @@
 package ch.rhj.gradle.publish;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 import org.gradle.api.Project;
@@ -12,87 +12,91 @@ import ch.rhj.junit.gradle.Gradle;
 
 public class PublishingExtensionTests {
 	
+	@Mock
+	ProjectInfo projectInfo;
+	
 	@Test
-	public void group(@Gradle Project project, @Mock ProjectInfo parent) {
+	public void group(@Gradle Project project) {
 		
-		PublishingExtension extension = new PublishingExtension(project, parent);
+		PublishingContext context = new PublishingContext(project, projectInfo);
+		PublishingExtension extension = context.newObject(PublishingExtension.class, context);
 		
-		extension.group("group1");
+		when(projectInfo.getGroup()).thenReturn("group1");
 		assertEquals("group1", extension.getGroup());
-		extension.group(null);
 		
-		when(parent.getGroup()).thenReturn("group2");
+		extension.group("group2");
 		assertEquals("group2", extension.getGroup());
 	}
 	
 	@Test
-	public void name(@Gradle Project project, @Mock ProjectInfo parent) {
+	public void name(@Gradle Project project) {
 		
-		PublishingExtension extension = new PublishingExtension(project, parent);
+		PublishingContext context = new PublishingContext(project, projectInfo);
+		PublishingExtension extension = context.newObject(PublishingExtension.class, context);
 		
-		extension.name("name1");
+		when(projectInfo.getName()).thenReturn("name1");
 		assertEquals("name1", extension.getName());
-		extension.name(null);
 		
-		when(parent.getName()).thenReturn("name2");
+		extension.name("name2");
 		assertEquals("name2", extension.getName());
 	}
 
 	@Test
-	public void version(@Gradle Project project, @Mock ProjectInfo parent) {
+	public void version(@Gradle Project project) {
 		
-		PublishingExtension extension = new PublishingExtension(project, parent);
+		PublishingContext context = new PublishingContext(project, projectInfo);
+		PublishingExtension extension = context.newObject(PublishingExtension.class, context);
 		
-		extension.version("version1");
+		when(projectInfo.getVersion()).thenReturn("version1");
 		assertEquals("version1", extension.getVersion());
-		extension.version(null);
 		
-		when(parent.getVersion()).thenReturn("version2");
+		extension.version("version2");
 		assertEquals("version2", extension.getVersion());
 	}
 
 	@Test
-	public void title(@Gradle Project project, @Mock ProjectInfo parent) {
+	public void title(@Gradle Project project) {
 		
-		PublishingExtension extension = new PublishingExtension(project, parent);
+		PublishingContext context = new PublishingContext(project, projectInfo);
+		PublishingExtension extension = context.newObject(PublishingExtension.class, context);
 		
-		extension.title("title1");
+		when(projectInfo.getTitle()).thenReturn("title1");
 		assertEquals("title1", extension.getTitle());
-		extension.title(null);
 		
-		when(parent.getTitle()).thenReturn("title2");
+		extension.title("title2");
 		assertEquals("title2", extension.getTitle());
 	}
 	
 	@Test
-	public void description(@Gradle Project project, @Mock ProjectInfo parent) {
+	public void description(@Gradle Project project) {
 		
-		PublishingExtension extension = new PublishingExtension(project, parent);
+		PublishingContext context = new PublishingContext(project, projectInfo);
+		PublishingExtension extension = context.newObject(PublishingExtension.class, context);
 		
-		extension.description("description1");
+		when(projectInfo.getDescription()).thenReturn("description1");
 		assertEquals("description1", extension.getDescription());
-		extension.description(null);
-		
-		when(parent.getDescription()).thenReturn("description2");
+				
+		extension.description("description2");
 		assertEquals("description2", extension.getDescription());
 	}
 	
 	@Test
 	public void publications(@Gradle Project project, @Mock ProjectInfo parent) {
 		
-		PublishingExtension extension = new PublishingExtension(project, parent);
-		
+		PublishingContext context = new PublishingContext(project, projectInfo);
+		PublishingExtension extension = context.newObject(PublishingExtension.class, context);
+						
 		extension.publications(pubs -> { pubs.create("test"); });
-		
-		assertTrue(extension.getPublications().getNames().contains("test"));
+		assertNotNull(extension.getPublications().getByName("test"));
 	}
 	
 	@Test
 	public void repositories(@Gradle Project project, @Mock ProjectInfo parent) {
 		
-		PublishingExtension extension = new PublishingExtension(project, parent);
-		
-		assertTrue(extension.getRepositories() == extension.getRepositories());
-		extension.repositories(reps -> {});
+		PublishingContext context = new PublishingContext(project, projectInfo);
+		PublishingExtension extension = context.newObject(PublishingExtension.class, context);
+						
+		extension.repositories(reps -> { reps.create("test"); });
+		assertNotNull(extension.getRepositories().getByName("test"));
 	}
 }

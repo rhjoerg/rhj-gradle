@@ -4,11 +4,11 @@ import org.gradle.api.Project;
 
 import ch.rhj.gradle.common.ProjectProperties;
 
-public class DefaultInfo implements ProjectInfo {
+public class DefaultProjectInfo implements ProjectInfo {
 
 	private final Project project;
 
-	public DefaultInfo(Project project) {
+	public DefaultProjectInfo(Project project) {
 		
 		this.project = project;
 	}

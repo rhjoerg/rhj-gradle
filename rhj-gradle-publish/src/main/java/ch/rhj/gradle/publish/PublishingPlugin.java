@@ -2,6 +2,7 @@ package ch.rhj.gradle.publish;
 
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.plugins.ExtensionContainer;
 
 import ch.rhj.gradle.common.ProjectProperties;
@@ -24,11 +25,14 @@ public class PublishingPlugin implements Plugin<Project> {
 	private void configureExtensions(Project project) {
 		
 		ExtensionContainer extensions = project.getExtensions();
-		DefaultInfo defaultInfo = new DefaultInfo(project);
+		ObjectFactory objects = project.getObjects();
 		
-		extensions.create("publishing", PublishingExtension.class, project, defaultInfo);
+		ProjectInfo projectInfo = new DefaultProjectInfo(project);
+		PublishingContext context = new PublishingContext(project, projectInfo);
+		
+		extensions.create("publishing", PublishingExtension.class, context);
 		
 		extensions.add("publications", project.container(PublicationExtension.class,
-				name -> new PublicationExtension(name, defaultInfo)));
+				name -> objects.newInstance(PublicationExtension.class, name, context)));
 	}
 }

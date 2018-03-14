@@ -6,14 +6,15 @@ import static java.util.Optional.ofNullable;
 
 import java.util.Optional;
 
+import javax.inject.Inject;
+
 import org.gradle.api.Action;
 import org.gradle.api.NamedDomainObjectContainer;
-import org.gradle.api.Project;
 
-public class PublishingExtension implements ProjectInfo {
+import ch.rhj.gradle.common.AbstractExtension;
+
+public class PublishingExtension extends AbstractExtension<PublishingContext> implements ProjectInfo {
 	
-	private final ProjectInfo parentProjectInfo;
-
 	private Optional<String> group = empty();
 	private Optional<String> name = empty();
 	private Optional<String> version = empty();
@@ -21,26 +22,23 @@ public class PublishingExtension implements ProjectInfo {
 	private Optional<String> description = empty();
 	
 	private final NamedDomainObjectContainer<PublicationExtension> publications;
-	private final RepositoriesExtension repositories;
+	private final NamedDomainObjectContainer<RepositoryExtension> repositories;
 	
-	public PublishingExtension(Project project, ProjectInfo parentProjectInfo) {
+	@Inject
+	public PublishingExtension(PublishingContext context) {
 		
-		this.parentProjectInfo = parentProjectInfo;
+		super(context);
 		
+		PublishingContext subcontext = new PublishingContext(context, this);
 		
-		publications = project.container(PublicationExtension.class, this::createPublication);
-		repositories = project.getObjects().newInstance(RepositoriesExtension.class);
-	}
-	
-	private PublicationExtension createPublication(String name) {
-		
-		return new PublicationExtension(name, this);
+		this.publications = newContainer(PublicationExtension.class, subcontext);
+		this.repositories = newContainer(RepositoryExtension.class, subcontext);
 	}
 	
 	@Override
 	public String getGroup() {
 		
-		return group.orElseGet(parentProjectInfo::getGroup);
+		return group.orElseGet(context.projectInfo::getGroup);
 	}
 
 	public void setGroup(String group) {
@@ -56,7 +54,7 @@ public class PublishingExtension implements ProjectInfo {
 	@Override
 	public String getName() {
 		
-		return name.orElseGet(parentProjectInfo::getName);
+		return name.orElseGet(context.projectInfo::getName);
 	}
 
 	public void setName(String name) {
@@ -72,7 +70,7 @@ public class PublishingExtension implements ProjectInfo {
 	@Override
 	public String getVersion() {
 		
-		return version.orElseGet(parentProjectInfo::getVersion);
+		return version.orElseGet(context.projectInfo::getVersion);
 	}
 
 	public void setVersion(String version) {
@@ -88,7 +86,7 @@ public class PublishingExtension implements ProjectInfo {
 	@Override
 	public String getTitle() {
 		
-		return title.orElseGet(parentProjectInfo::getTitle);
+		return title.orElseGet(context.projectInfo::getTitle);
 	}
 	
 	public void setTitle(String title) {
@@ -104,7 +102,7 @@ public class PublishingExtension implements ProjectInfo {
 	@Override
 	public String getDescription() {
 		
-		return description.orElseGet(parentProjectInfo::getDescription);
+		return description.orElseGet(context.projectInfo::getDescription);
 	}
 
 	public void setDescription(String description) {
@@ -127,12 +125,12 @@ public class PublishingExtension implements ProjectInfo {
 		configurer.execute(publications);
 	}
 	
-	public RepositoriesExtension getRepositories() {
+	public NamedDomainObjectContainer<RepositoryExtension> getRepositories() {
 		
 		return repositories;
 	}
 	
-	public void repositories(Action<? super RepositoriesExtension> configurer) {
+	public void repositories(Action<? super NamedDomainObjectContainer<RepositoryExtension>> configurer) {
 		
 		configurer.execute(repositories);
 	}

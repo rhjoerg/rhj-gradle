@@ -40,6 +40,10 @@ public class PublishingPluginTests {
 	@Test
 	public void build(@Gradle GradleRunner runner) throws Exception {
 		
-		runner.withArguments("tasks").forwardOutput().withDebug(true).withPluginClasspath().build();
+		runner.withArguments("--stacktrace", "tasks")
+				.forwardOutput()
+				.withDebug(true)
+				.withPluginClasspath()
+				.build();
 	}
 }

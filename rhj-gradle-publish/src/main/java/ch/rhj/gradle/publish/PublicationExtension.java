@@ -6,26 +6,27 @@ import static java.util.Optional.ofNullable;
 
 import java.util.Optional;
 
-public class PublicationExtension implements ProjectInfo {
-	
-	private final String name;
-	private final ProjectInfo parentProjectInfo;
+import javax.inject.Inject;
+
+import ch.rhj.gradle.common.AbstractNamedExtension;
+
+public class PublicationExtension extends AbstractNamedExtension<PublishingContext> implements ProjectInfo {
 	
 	private Optional<String> group = empty();
 	private Optional<String> version = empty();
 	private Optional<String> title = empty();
 	private Optional<String> description = empty();
 	
-	public PublicationExtension(String name, ProjectInfo parentProjectInfo) {
+	@Inject
+	public PublicationExtension(String name, PublishingContext context) {
 		
-		this.name = name;
-		this.parentProjectInfo = parentProjectInfo;
+		super(name, context);
 	}
 	
 	@Override
 	public String getGroup() {
 		
-		return group.orElseGet(parentProjectInfo::getGroup);
+		return group.orElseGet(context.projectInfo::getGroup);
 	}
 
 	public void setGroup(String group) {
@@ -39,15 +40,9 @@ public class PublicationExtension implements ProjectInfo {
 	}
 
 	@Override
-	public String getName() {
-
-		return name;
-	}
-
-	@Override
 	public String getVersion() {
 		
-		return version.orElseGet(parentProjectInfo::getVersion);
+		return version.orElseGet(context.projectInfo::getVersion);
 	}
 
 	public void setVersion(String version) {
@@ -62,7 +57,7 @@ public class PublicationExtension implements ProjectInfo {
 
 	public String getTitle() {
 		
-		return title.orElseGet(parentProjectInfo::getTitle);
+		return title.orElseGet(context.projectInfo::getTitle);
 	}
 
 	public void setTitle(String title) {
@@ -77,7 +72,7 @@ public class PublicationExtension implements ProjectInfo {
 
 	public String getDescription() {
 		
-		return description.orElseGet(parentProjectInfo::getDescription);
+		return description.orElseGet(context.projectInfo::getDescription);
 	}
 
 	public void setDescription(String description) {
