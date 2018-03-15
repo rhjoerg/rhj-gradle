@@ -4,6 +4,7 @@ import static com.google.common.base.Strings.emptyToNull;
 import static java.util.Optional.empty;
 import static java.util.Optional.ofNullable;
 
+import java.io.File;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -83,5 +84,10 @@ public class PublicationExtension extends AbstractNamedExtension<PublishingConte
 	public void description(String description) {
 		
 		setDescription(description);
+	}
+	
+	public File getOutputDirectory() {
+		
+		return context.project.getBuildDir().toPath().resolve("publishing").resolve(getName()).toFile();
 	}
 }
