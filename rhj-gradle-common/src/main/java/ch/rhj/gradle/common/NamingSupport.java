@@ -58,7 +58,8 @@ public class NamingSupport {
 		if (!Strings.isNullOrEmpty(artifact))
 			fileName.append('-').append(artifact);
 		
-		fileName.append('-').append(version);
+		if (!Strings.isNullOrEmpty(version))
+			fileName.append('-').append(version);
 
 		if (!Strings.isNullOrEmpty(extension)) {
 			
